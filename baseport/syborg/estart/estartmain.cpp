@@ -35,6 +35,7 @@ public:
 #ifdef __ENABLE_HOSTFS
 	virtual void InitHostFS();
 #endif
+	virtual TInt StartSystem();
 	};
 	
 
@@ -61,6 +62,16 @@ _LIT(KHostFSMounter, "z:\\sys\\bin\\SVPHOSTFS.EXE");
 		}
 	}	
 #endif
+
+TInt TSyborgFSStartup::StartSystem()
+	{
+	TDriveList list;
+	iFs.DriveList(list);
+	_LIT(KEShell, "eshell.exe");
+	if (CreateServer(list, KEShell))
+		return KErrNone;
+	return TFSStartup::StartSystem();
+	}
 
 
 /*!

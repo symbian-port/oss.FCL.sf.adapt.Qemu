@@ -100,7 +100,18 @@ class syborg_nvmemorydevice(qemu.devclass):
         except Exception, e:
             print repr(e)
             sys.exit("syborg_nvmemorydevice: nvmemmory load failed")
-        
+
+        self.nvmemlib.nvmem_create.restype = ctypes.c_void_p
+        self.nvmemlib.nvmem_create.argtypes = [ctypes.c_uint32]
+        self.nvmemlib.nvmem_reset.argtypes = [ctypes.c_void_p]
+        self.nvmemlib.nvmem_open.restype = ctypes.c_int
+        self.nvmemlib.nvmem_open.argtypes = [ctypes.c_void_p, ctypes.c_char_p]
+        self.nvmemlib.nvmem_get_sector_count.restype = ctypes.c_uint32
+        self.nvmemlib.nvmem_get_sector_count.argtypes = [ctypes.c_void_p, ctypes.c_int]
+        self.nvmemlib.nvmem_set_callback.argtypes = [ctypes.c_void_p, ctypes.c_void_p]
+        self.nvmemlib.nvmem_read.argtypes = [ctypes.c_void_p, ctypes.c_void_p, ctypes.c_int, ctypes.c_uint32, ctypes.c_uint32]
+        self.nvmemlib.nvmem_write.argtypes = [ctypes.c_void_p, ctypes.c_void_p, ctypes.c_int, ctypes.c_uint32, ctypes.c_uint32]
+
         # Create an instance of non volatile memory handler class
         self.obj = self.nvmemlib.nvmem_create( self.sector_size )
         self.nvmemlib.nvmem_reset( self.obj )

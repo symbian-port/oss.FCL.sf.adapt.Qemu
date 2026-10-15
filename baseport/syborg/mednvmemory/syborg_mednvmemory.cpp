@@ -21,9 +21,9 @@
 
 #include "locmedia.h"
 #include "platform.h"
-#include "variantmediadef.h"
+#include <syborg/variantmediadef.h>
 #include "syborg_mednvmemory.h"
-#include "syborg.h"
+#include <syborg/syborg.h>
 
 _LIT(KNVMemPddName, "Media.MEDNVMEMORY");
 _LIT(KNVMemDriveName,NVMEM1_DRIVENAME);

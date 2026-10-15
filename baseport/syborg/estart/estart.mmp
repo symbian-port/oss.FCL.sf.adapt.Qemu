@@ -36,8 +36,7 @@ STRICTDEPEND
 //DOCUMENT		 ../group/release.txt
 
 USERINCLUDE     \sf\os\kernelhwsrv\userlibandfileserver\fileserver\estart
-//SYSTEMINCLUDE	../inc /epoc32/include
-SYSTEMINCLUDE	/epoc32/include
+SYSTEMINCLUDE	/epoc32/include /epoc32/include/platform
 
 LIBRARY			efsrv.lib euser.lib hal.lib
 LIBRARY			domaincli.lib

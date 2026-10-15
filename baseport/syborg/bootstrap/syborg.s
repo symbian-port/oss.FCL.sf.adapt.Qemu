@@ -445,16 +445,10 @@ FinalInitialise ROUT
 ;*******************************************************************************
 	EXPORT	DoWriteC
 DoWriteC	ROUT
-	IF	CFG_DebugBootRom
 		push    {r1,lr}
 		bl		GetDebugPortBase			; r1 = base address of UART registers
-	
 		str		r0, [r1, #4]				; Store to data register
-
 		pop     {r1,pc}
-	ELSE
-		bx      lr
-	ENDIF
 
 ;*******************************************************************************
 ; Initialise the debug port

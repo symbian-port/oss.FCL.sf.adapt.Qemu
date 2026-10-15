@@ -25,6 +25,8 @@ ROMTARGET		nvmemory.dll
 
 SYMBIAN_BASE_SYSTEMINCLUDE(drivers)
 SYSTEMINCLUDE	AsspNKernIncludePath
+USERINCLUDE		../specific
+USERINCLUDE		.
 
 SOURCEPATH		.
 SOURCE			syborg_mednvmemory.cpp

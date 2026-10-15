@@ -54,8 +54,9 @@ PRJ_MMPFILES
 ../../../../os/kernelhwsrv/kernel/eka/kernel/ekern
 ../../../../os/kernelhwsrv/kernel/eka/kernel/kc_exe
 ../../../../os/kernelhwsrv/kernel/eka/kernel/exmoncommon
+../../../../os/kernelhwsrv/kernel/eka/drivers/locmedia/elocd
 ../../../../os/kernelhwsrv/kernel/eka/drivers/medint/medint
-../../../../os/kernelhwsrv/userlibandfileserver/fileserver/etshell/eshell
+// ../../../../os/kernelhwsrv/userlibandfileserver/fileserver/etshell/eshell
 ../../../../os/kernelhwsrv/kernel/eka/drivers/trace/btracex
 ../../../../os/kernelhwsrv/kernel/eka/euser/variant_euser
 
@@ -135,17 +136,16 @@ option		NAME			_syborg_bootloader_bootrom
 option		MEMMODEL		multiple
 //option		MEMMODEL		flexible
 //option		MEMMODEL		moving
-option		SOURCES			syborg.s
-//option		INCLUDES		$(EXTENSION_ROOT)/config.inc $(EXTENSION_ROOT)/bootstrap/syborg.inc
+option		SOURCES			bootstrap/syborg.s
 option		INCLUDES		config.inc syborg.inc
-option		E32PATH			$(EXTENSION_ROOT)/../../../../os/kernelhwsrv/kernel
-option		EXTRA_INC_PATH	$(EXTENSION_ROOT)/bootstrap
-option		EXTRA_SRC_PATH	$(EXTENSION_ROOT)/bootstrap
+option		E32PATH			../../../../os/kernelhwsrv/kernel
+option		EXTRA_INC_PATH	bootstrap
+option		EXTRA_SRC_PATH	bootstrap
 end
 
 // Build image armv5 for urel and udeb
-PRJ_EXTENSIONS
-start	extension	base/rom
-option	REE_TARGET	syborg
-option	TYPE	tshell
-end
+//PRJ_EXTENSIONS
+//start	extension	base/rom
+//option	REE_TARGET	syborg
+//option	TYPE	tshell
+//end

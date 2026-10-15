@@ -53,6 +53,7 @@
 #include <zlib.h>
 
 #ifndef _WIN32
+#include <libgen.h>
 #include <sys/times.h>
 #include <sys/wait.h>
 #include <termios.h>
@@ -2752,23 +2753,33 @@ static void dumb_update(DisplayState *ds, int x, int y, int w, int h)
 {
 }
 
-static void dumb_resize(DisplayState *ds, int w, int h)
+static void dumb_set_screen_size(int width, int height, int on)
 {
 }
 
-static void dumb_display_init(DisplayState *ds)
+static void dumb_get_screen_data(screen_data_t *new_screen_data)
+{
+    memset(new_screen_data, 0, sizeof(screen_data_t));
+}
+
+static void dumb_init_ds(struct DisplayState *ds)
 {
     ds->data = NULL;
     ds->linesize = 0;
     ds->depth = 0;
     ds->dpy_update = dumb_update;
-#if 0
-    DFG: TODO 
-    ds->dpy_resize = dumb_resize;
-    ds->dpy_refresh = NULL;
-    ds->gui_timer_interval = 0; /* DFG DANGER: the default is 500 */
-    ds->idle = 1;
-#endif
+}
+
+static gui_host_callbacks_t dumb_gui_callbacks = {
+    .set_screen_size = dumb_set_screen_size,
+    .get_screen_data = dumb_get_screen_data,
+    .init_ds = dumb_init_ds,
+};
+
+static void dumb_display_init(DisplayState *ds)
+{
+    dumb_init_ds(ds);
+    gui_init(&dumb_gui_callbacks);
 }
 
 /***********************************************************/
@@ -5514,6 +5525,7 @@ int main(int argc, char **argv, char **envp)
 #elif defined(CONFIG_COCOA)
         cocoa_display_init(ds, full_screen);
 #else
+        DisplayState *ds = qemu_mallocz(sizeof(DisplayState));
         dumb_display_init(ds);
 #endif
     }

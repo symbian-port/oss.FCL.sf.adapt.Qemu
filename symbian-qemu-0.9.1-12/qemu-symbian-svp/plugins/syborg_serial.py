@@ -53,6 +53,7 @@ class syborg_serial(qemu.devclass):
     self.update_irq()
 
   def create(self):
+    print >> sys.stderr, "syborg_serial: created, chardev=", self.properties.get("chardev")
     self.fifo_size = self.properties["fifo-size"]
     self.chardev = self.properties["chardev"]
     self.fifo=[]
@@ -89,6 +90,7 @@ class syborg_serial(qemu.devclass):
   def write_reg(self, offset, value):
     offset >>= 2
     if offset == self.REG_DATA:
+      # print >> sys.stderr, "syborg_serial TX:", hex(value), repr(chr(value) if 32 <= value < 127 else value)
       self.chardev.write(value)
     elif offset == self.REG_INT_ENABLE:
       self.int_enable = value & 7

@@ -153,12 +153,12 @@ static int qemu_py_memregion_init(qemu_py_memregion *self, PyObject *args,
                                  PyObject *kwds)
 	{
     static char *kwlist[] = {"base","size", NULL};
-    uint32_t base;
-    uint32_t size;
+    unsigned long base = 0;
+    unsigned long size = 0;
 	int ret = -1;
 	int region_index = 0;
 
-    if (!PyArg_ParseTupleAndKeywords(args, kwds, "ll", kwlist,
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "kk", kwlist,
                                      &base, &size ))
 		{
         ret = -1; 
@@ -173,8 +173,8 @@ static int qemu_py_memregion_init(qemu_py_memregion *self, PyObject *args,
 				(base + size)) )
 				{
 				ret = 0;
-				self->base = base;
-				self->size = size;
+				self->base = (uint32_t)base;
+				self->size = (uint32_t)size;
 				self->host_ram_base_ptr = (uint32_t*)host_ram_addr(base);
 				break;
 				}

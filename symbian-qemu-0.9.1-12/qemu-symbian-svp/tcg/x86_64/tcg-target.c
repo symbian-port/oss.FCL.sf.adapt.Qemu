@@ -838,8 +838,16 @@ static inline void tcg_out_op(TCGContext *s, int opc, const TCGArg *args,
     switch(opc) {
     case INDEX_op_exit_tb:
         tcg_out_movi(s, TCG_TYPE_PTR, TCG_REG_RAX, args[0]);
-        tcg_out8(s, 0xe9); /* jmp tb_ret_addr */
-        tcg_out32(s, tb_ret_addr - s->code_ptr - 4);
+        {
+            tcg_target_long diff = (tcg_target_long)tb_ret_addr - (tcg_target_long)s->code_ptr - 5;
+            if (diff >= -0x80000000LL && diff <= 0x7fffffffLL) {
+                tcg_out8(s, 0xe9); /* jmp tb_ret_addr */
+                tcg_out32(s, diff);
+            } else {
+                tcg_out_movi(s, TCG_TYPE_PTR, TCG_REG_R10, (tcg_target_long)tb_ret_addr);
+                tcg_out_modrm(s, 0xff, 4, TCG_REG_R10);
+            }
+        }
         break;
     case INDEX_op_goto_tb:
         if (s->tb_jmp_offset) {

@@ -779,6 +779,15 @@ void do_interrupt(CPUARMState *env)
         do_interrupt_v7m(env);
         return;
     }
+    if (env->exception_index == EXCP_DATA_ABORT || env->exception_index == EXCP_PREFETCH_ABORT) {
+        static int abort_count = 0;
+        if (abort_count++ < 20) {
+            fprintf(stderr, "[QEMU-ABORT] excp=%d at PC=0x%08x DFAR=0x%08x DFSR=0x%08x IFAR=0x%08x IFSR=0x%08x SP=0x%08x LR=0x%08x CPSR=0x%08x\n",
+                    env->exception_index, env->regs[15], env->cp15.c6_data, env->cp15.c5_data, env->cp15.c6_insn, env->cp15.c5_insn,
+                    env->regs[13], env->regs[14], cpsr_read(env));
+            fflush(stderr);
+        }
+    }
     /* TODO: Vectored interrupt controller.  */
     switch (env->exception_index) {
     case EXCP_UDEF:

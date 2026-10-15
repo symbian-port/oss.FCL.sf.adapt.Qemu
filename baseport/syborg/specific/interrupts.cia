@@ -20,7 +20,7 @@
 #include <cpudefs.h>
 
 // CIA symbols for ASSP code?
-#if defined(__GCC32__)
+#if defined(__GCC32__) && !defined(__EABI__)
 // CIA symbol macros for Gcc98r2
 #define CSM_ZN7NTimerQ4TickEv " Tick__7NTimerQ"
 #elif defined(__ARMCC__)

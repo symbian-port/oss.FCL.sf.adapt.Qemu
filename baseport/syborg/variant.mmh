@@ -109,7 +109,7 @@ macro __DEBUGGER_SUPPORT__
 macro FASTTRACE_KERNEL_ALL
 macro __EMI_SUPPORT__
 
-#define VariantTarget(name,ext)     _syborg_##name##.##ext
+#define VariantTarget(name,ext)     _syborg_##name.ext
 #define AsspNKernIncludePath        /epoc32/include/syborg
 #define VariantMediaDefIncludePath  /epoc32/include/syborg        
 #define PlatformLib		   		    kasyborg.lib

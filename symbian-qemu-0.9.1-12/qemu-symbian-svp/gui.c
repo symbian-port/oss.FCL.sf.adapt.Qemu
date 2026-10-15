@@ -504,7 +504,7 @@ int gui_register_mouse_event_handler(QEMUPutMouseEvent *func,
                                      void *opaque, int absolute,
                                      const char *devname)
 {
-    if (gui_data->loaded) {
+    if (gui_data && gui_data->loaded) {
         int found = 0;
         VtID vtid = 0;
         int parea;
@@ -556,7 +556,7 @@ DisplayState *gui_get_graphic_console(const char *devname,
 {
     DisplayState *ret = NULL;
 
-    if (gui_data->loaded && devname != NULL) {
+    if (gui_data && gui_data->loaded && devname != NULL) {
         int found = 0;
         VtID vtid = 0;
         DisplayID dispid;

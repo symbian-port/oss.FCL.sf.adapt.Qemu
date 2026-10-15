@@ -157,9 +157,9 @@ ifeq ($(ARCH),mips64)
 OP_CFLAGS+=-mabi=n32 -G0 -fno-PIC -mno-abicalls -fomit-frame-pointer -fno-delayed-branch -Wa,-O0
 endif
 
-CFLAGS+=$(OS_CFLAGS) $(ARCH_CFLAGS)
-LDFLAGS+=$(OS_LDFLAGS) $(ARCH_LDFLAGS)
-OP_CFLAGS+=$(OS_CFLAGS) $(ARCH_CFLAGS)
+CFLAGS+=$(OS_CFLAGS) $(ARCH_CFLAGS) -fno-PIE
+LDFLAGS+=$(OS_LDFLAGS) $(ARCH_LDFLAGS) -no-pie
+OP_CFLAGS+=$(OS_CFLAGS) $(ARCH_CFLAGS) -fno-PIE
 
 CPPFLAGS+=-D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
 LIBS+=-lm
@@ -792,7 +792,7 @@ LDFLAGS+=$(RPATH_FLAGS)
 endif
 
 $(QEMU_PROG): $(OBJS) ../libqemu_common.a libqemu.a
-	$(CC) $(LDFLAGS) -o $@ $^ $(LIBS) $(SDL_LIBS) $(PNG_LIBS) $(COCOA_LIBS) $(CURSES_LIBS) $(BRLAPI_LIBS) $(VDE_LIBS)
+	$(CC) $(LDFLAGS) -o $@ $^ $(LIBS) $(SDL_LIBS) $(PNG_LIBS) $(COCOA_LIBS) $(CURSES_LIBS) $(BRLAPI_LIBS) $(VDE_LIBS) -lm -lrt
 
 endif # !CONFIG_USER_ONLY
 
